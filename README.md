@@ -45,6 +45,6 @@ How to use it
 
 		atomizer.atomize(document.body, options)
 		
-== MIT Licensed ==
+## MIT Licensed
 
 See atomize.js for the full license
