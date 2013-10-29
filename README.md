@@ -30,7 +30,7 @@ How to use it
 
 1. Include a link to the atomize.js file in your HTML document
 
-  &lt;script src="../atomize.js"&gt;&lt;/script&gt;
+		&lt;script src="../atomize.js"&gt;&lt;/script&gt;
 
 2. create an atomizerOptions object, and change any default options (see atomize.js for details on the options)
 
@@ -45,5 +45,5 @@ How to use it
 	
 3. Call atomizer.atomize on an element, with the optiosn you want
 
-    atomizer.atomize(document.body, options)
+		atomizer.atomize(document.body, options)
 		
