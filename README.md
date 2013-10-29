@@ -1,7 +1,7 @@
 Atomizer
 ========
 
-A small helper to atomize HTML documents into elements for every word or character
+A small helper to atomize HTML documents into elements for every word or character (no jQuery required).
 
 Call atomizer.atomize for an element to split words or characters into their own element
 
@@ -41,7 +41,7 @@ How to use it
 		options.iterateRecusively = true;
 		options.deep = true;
 	
-3. Call atomizer.atomize on an element, with the optiosn you want
+3. Call atomizer.atomize on an element, with the options you want
 
 		atomizer.atomize(document.body, options)
 		
