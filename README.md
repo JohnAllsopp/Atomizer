@@ -40,10 +40,11 @@ How to use it
 		options.iterate = true;
 		options.iterateRecusively = true;
 		options.deep = true;
-		
-	}
 	
 3. Call atomizer.atomize on an element, with the optiosn you want
 
 		atomizer.atomize(document.body, options)
 		
+== MIT Licensed ==
+
+See atomize.js for the full license
