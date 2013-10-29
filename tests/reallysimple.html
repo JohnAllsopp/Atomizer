@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>test atomize</title>
+	<script src="../atomize.js"></script>
+	<script>function atomizeText(){
+		
+		var options = new atomizerOptions
+		options.granularity = 'letter';
+		options.className = 'atomized';
+		options.iterate = true;
+		options.iterateRecusively = true;
+		options.deep = true;
+		
+		atomizer.atomize(document.body, options)
+		
+	}
+	
+	window.addEventListener("load", atomizeText, false)</script>
+</head>
+<body>
+
+<ul>
+	<li>We can use the <code>animation-direction</code> property to specify whether</li>
+
+</ul>
+
+</body>
+</html>

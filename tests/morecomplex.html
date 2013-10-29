@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>test atomize</title>
+	<script src="../atomize.js"></script>
+	<script>function atomizeText(){
+		
+		var options = new atomizerOptions
+		options.granularity = 'letter';
+		options.className = 'atomized';
+		options.iterate = true;
+		options.iterateRecusively = true;
+		options.deep = true;
+		
+		atomizer.atomize(document.body, options)
+		
+	}
+	
+	window.addEventListener("load", atomizeText, false)</script>
+</head>
+<body> <section class="slide">
+<section class="slide-content">
+<h4><code>animation-direction</code></h4>
+
+<ul>
+	<li>Instead of a smooth forward and back animation, we have an abrupt return from the end of the animation to the beginning when it recommences for a new iteration</li>
+	<li>There'll be times of course we may want this, but often we'll want the animation to run "backwards" to the initial state before recommencing.</li>
+	<li>We can use the <code>animation-direction</code> property to specify whether</li>
+
+	<li><ul>
+		<li>the animation plays from beginning to end, before returning to the initial state and playing again, with a value of <code>normal</code> (the default value)</li>
+		<li>the animation plays in the reverse direction to how it is specified, and returning to the final values as specified before recommencing, using the value <code>reverse</code></li>
+		<li>with a value of <code>alternate</code> the animation alternates in the forward and reverse direction</li>
+		<li>with a value of <code>alternate-reverse</code> the behaviour is similar to <code>alternate</code> but the initial animation is in the reverse direction</li>
+	</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+<section class="speaker-notes">
+
+<h4><code>animation-direction</code></h4>
+
+<p>That too might not be what you expected. Instead of a smooth forward and back animation, we have an abrupt return from the end of the animation to the beginning when it recommences for a new iteration. There'll be times of course we may want this, but often we'll want the animation to run "backwards" to the initial state before recommencing. We can use the <code>animation-direction</code> property to specify whether</p>
+
+<ul>
+	<li>the animation plays from beginning to end, before returning to the initial state and playing agan, with a value of <code>normal</code> (the default value)</li>
+	<li>the animation plays in the reverse direction to how it is specified, and returning to the final values as specified before recommencing, using the value <code>reverse</code> (yes, i'm not sure either what exactly the point of this is)</li>
+	<li>with a value of <code>alternate</code> the animation alternates in the forward and reverse direction (each animation in either direction last for the length of the <code>animation-duration</code> property)</li>
+	<li>with a value of <code>alternate-reverse</code> the behaviour is similar to <code>alternate</code> but the initial animation is in the reverse direction (from final property values to initial property values)</li>
+</ul>
+
+
+</section> <!-- speaker notes -->
+</section> <!-- slide -->
+
+</body>
+</html>
