@@ -30,7 +30,7 @@ How to use it
 
 1. Include a link to the atomize.js file in your HTML document
 
-		&lt;script src="../atomize.js"&gt;&lt;/script&gt;
+		<script src="../atomize.js"></script>
 
 2. create an atomizerOptions object, and change any default options (see atomize.js for details on the options)
 
