@@ -7,15 +7,15 @@ Call atomizer.atomize for an element to split words or characters into their own
 
 For example 
 
-&lt;p&gt;this is a paragraph&lt;/p&gt; 
+		&lt;p&gt;this is a paragraph&lt;/p&gt; 
 
 can become
 
-&lt;p&gt;&lt;span&gt;this&lt;/span&gt; &lt;span&gt;is&lt;/span&gt; &lt;span&gt;a&lt;/span&gt; &lt;span&gt;paragraph&lt;/span&gt;&lt;/p&gt;
+		&lt;p&gt;&lt;span&gt;this&lt;/span&gt; &lt;span&gt;is&lt;/span&gt; &lt;span&gt;a&lt;/span&gt; &lt;span&gt;paragraph&lt;/span&gt;&lt;/p&gt;
 
 or
 
-&lt;p&gt;&lt;span&gt;t&lt;/span&gt; &lt;span&gt;h&lt;/span&gt; &lt;span&gt;i&lt;/span&gt; &lt;span&gt;s&lt;/span&gt; ... &lt;/p&gt;
+		&lt;p&gt;&lt;span&gt;t&lt;/span&gt; &lt;span&gt;h&lt;/span&gt; &lt;span&gt;i&lt;/span&gt; &lt;span&gt;s&lt;/span&gt; ... &lt;/p&gt;
 
 Options allow you to 
 
