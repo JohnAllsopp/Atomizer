@@ -7,7 +7,7 @@ Call atomizer.atomize for an element to split words or characters into their own
 
 For example 
 
-		&lt;p&gt;this is a paragraph&lt;/p&gt; 
+		<p&gt;this is a paragraph&lt;/p&gt; 
 
 can become
 
