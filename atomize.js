@@ -28,6 +28,7 @@
 
 //Dependencies
 //none
+
 //DOM features you may be concerned about in really old browsers
 //classList, textContent, JSON
 
@@ -37,7 +38,7 @@ function atomizerOptions() {
 	//tag: string - what type of element should we wrap out atoms in? default is span
 	//className: string - what classname should we add to these new elements? default ""
 	//iterate: boolean - number the className uniquely from 0 (e.g class="className1", class="className2")
-	//iterateRecursively: boolean - do we start iterating from 1 for each sub element, or only from the start? 
+	//iterateRecursively: boolean - do we start iterating from 0 for each sub element, or only from the start? 
 	//deep: boolean - do we recursively call atomize on child elements [deep = true] or only apply to the passed element? default false  
 	//lastIndex: integer, //the last integer we used to append to className to number elements uniquely default = 0
 	
@@ -73,15 +74,64 @@ var atomizer = {
 		
 	},
 	
+	reconstitute: function(element, options) {
+		//remove elements, replace with text nodes
+		
+		var childNodes = element.childNodes;
+		var currentText = "";
+		var newTextNode;
+		var elementsToRemove = []; 	//elements we'll remove from the document once we've got their text
+		var elementsToAdd = []; 	//each entry in the array is an array of 2 items, the first is the element to be added
+									//the second, the element it comes before
+		
+		for (var i=0; i < childNodes.length; i++) {
+			if (childNodes[i].nodeType === 1 && atomizer.isAtomized(childNodes[i], options)) {
+				// need to check if it is one of the atomized ones, or a regular node
+				//element node, so add the contents to our buffer of text
+				currentText += childNodes[i].textContent;
+				elementsToRemove.push(childNodes[i])
+			}
+			
+			var tet = (childNodes[i].parentElement.nextSibling === null)
+			
+			if ((childNodes[i].nextSibling === null) || !(childNodes[i].nodeType === 1 ) || !(atomizer.isAtomized(childNodes[i], options))) {
+				//we've hit a non atomized element, so turn the buffered one into a text node and add that
+				//or it's the last sibling element so process what's come before
+				
+				if (currentText != "") {
+					newTextNode = document.createTextNode(currentText);
+					elementsToAdd.push([newTextNode, childNodes[i]]);
+					currentText = "";					
+				}
+			}
+			
+			if (childNodes[i].nodeType === 1 && !(atomizer.isAtomized(childNodes[i], options))) {
+				atomizer.reconstitute(childNodes[i], options);
+			}
+			
+		};
+		
+		//now remove all the old atomized elements
+				
+		for (var i=0; i < elementsToAdd.length; i++) {
+			elementsToAdd[i][1].parentElement.insertBefore(elementsToAdd[i][0], elementsToAdd[i][1]);
+		};
+		
+		for (var i=0; i < elementsToRemove.length; i++) {
+			elementsToRemove[i].parentElement.removeChild(elementsToRemove[i])
+		};
+		
+	},
+	
 	intoLetters: function(element, options) {
 		//break the element into individual letter based elements with the options as outlined in atomize()
 		var childNodes = element.childNodes;
 		var replacedElementsArray = []; //we'll use this to remove replace textNodes with their created elements
 		
 			for (var i=0; i < childNodes.length; i++) {
-			//we go backwards as we're removing elements as we go, and this is a live nodelist
+
 			if (childNodes[i].nodeType === 1) {
-				//HTML element, so call intoWords recursively
+				//HTML element, so call intoLetter recursively
 				
 				atomizer.intoLetters(childNodes[i], options)
 				
@@ -92,8 +142,9 @@ var atomizer = {
 				
 				if (childNodes[i].textContent) {
 					
-					var text = childNodes[i].textContent//.trim();
-					var nextNode = childNodes[i+1]
+					var text = childNodes[i].textContent;
+					var nextNode = childNodes[i+1];
+					
 					if (text !== "") {
 						
 						var stringArray = text.split("");
@@ -227,6 +278,7 @@ var atomizer = {
 			//recursively apply the options to child elements
 			
 			var passOptions = options
+			//we're may have to clone our options and pass these as options tracks the current counter of the iterator
 			
 			if (options.iterateRecusively) {
 				var newOptions = atomizer.cloneOptions(options);
@@ -259,5 +311,15 @@ var atomizer = {
 			insertBefore.parentElement.insertBefore(elementArray[i], insertBefore)
 		};
 		
+	},
+	
+	isAtomized: function(element, options) {
+		
+		if (element.classList) {
+ 			return element.classList.contains(options.className)
+		}
+		else {
+			return false
+		}
 	}
 }

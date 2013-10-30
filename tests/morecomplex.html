@@ -7,19 +7,35 @@
 	<script>function atomizeText(){
 		
 		var options = new atomizerOptions
-		options.granularity = 'letter';
+		options.granularity = document.querySelector('#granularity').value;
 		options.className = 'atomized';
-		options.iterate = true;
+		options.iterate = false;
 		options.iterateRecusively = true;
 		options.deep = true;
 		
-		atomizer.atomize(document.body, options)
+		atomizer.atomize(document.querySelector("ul"), options)
 		
 	}
 	
-	window.addEventListener("load", atomizeText, false)</script>
-</head>
-<body> <section class="slide">
+	function reconstituteText() {
+	
+		var options = new atomizerOptions
+		options.granularity = 'letter';
+		options.className = 'atomized';
+		options.iterate = false;
+		options.iterateRecusively = true;
+		options.deep = true;
+
+		atomizer.reconstitute(document.querySelector(".slide"), options)
+
+	}
+	
+	</script></head>
+<body>
+<p><button onclick="atomizeText()">Atomize</button> <button onclick="reconstituteText()">Reconstitute</button><select id="granularity"><option>word</option><option>letter</option></select></p>
+
+
+<section class="slide">
 <section class="slide-content">
 <h4><code>animation-direction</code></h4>
 

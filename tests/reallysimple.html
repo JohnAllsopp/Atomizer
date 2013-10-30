@@ -3,28 +3,59 @@
 <head>
 	<meta charset="utf-8" />
 	<title>test atomize</title>
+	
+	<style>
+		.atomized {
+			-webkit-transform: scale(1.0);
+			-webkit-transform-origin: 50% 50%;
+			transform: scale(1.0);
+			transform-origin: 50% 50%;
+		}
+
+		body {
+			-webkit-perspective: 200;
+			-webkit-perspective-origin: 50% 50%;
+			perspective: 200;
+			perspective-origin: 50% 50%;
+		}
+</style>
+	
 	<script src="../atomize.js"></script>
 	<script>function atomizeText(){
 		
 		var options = new atomizerOptions
-		options.granularity = 'letter';
+		options.granularity = 'word';
 		options.className = 'atomized';
-		options.iterate = true;
+		options.iterate = false;
 		options.iterateRecusively = true;
 		options.deep = true;
 		
-		atomizer.atomize(document.body, options)
+		atomizer.atomize(document.querySelector("ul"), options)
 		
 	}
 	
-	window.addEventListener("load", atomizeText, false)</script>
+	function reconstituteText() {
+	
+		var options = new atomizerOptions
+		options.granularity = 'word';
+		options.className = 'atomized';
+		options.iterate = false;
+		options.iterateRecusively = true;
+		options.deep = true;
+
+		atomizer.reconstitute(document.querySelector("ul"), options)
+
+	}
+	
+	</script>
 </head>
 <body>
 
 <ul>
-	<li>We can use the <code>animation-direction</code> property to specify whether</li>
-
+	<li>We <code>animation-direction</code> can use the property to specify whether</li>
 </ul>
+
+<p><button onclick="atomizeText()">Atomize</button> <button onclick="reconstituteText()">Reconstitute</button></p>
 
 </body>
 </html>
