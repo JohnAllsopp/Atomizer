@@ -45,6 +45,10 @@ How to use it
 
 		atomizer.atomize(document.body, options)
 		
+4. to remove elements added by atomizer, call atomizer.reconstitute on the element that was atomized
+
+		atomizer.reconstitute(document.body, options)
+
 ## MIT Licensed
 
 See atomize.js for the full license
