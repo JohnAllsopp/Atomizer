@@ -91,12 +91,10 @@ var atomizer = {
 				currentText += childNodes[i].textContent;
 				elementsToRemove.push(childNodes[i])
 			}
-			
-			var tet = (childNodes[i].parentElement.nextSibling === null)
-			
+						
 			if ((childNodes[i].nextSibling === null) || !(childNodes[i].nodeType === 1 ) || !(atomizer.isAtomized(childNodes[i], options))) {
 				//we've hit a non atomized element, so turn the buffered one into a text node and add that
-				//or it's the last sibling element so process what's come before
+				//OR it's the last sibling element so process what's come before
 				
 				if (currentText != "") {
 					newTextNode = document.createTextNode(currentText);
@@ -305,7 +303,7 @@ var atomizer = {
 	},
 	
 	insertElementsBefore: function(insertBefore, elementArray) {
-		//insert the elements in the array before the element
+		//insert the elements in the array before the element 'insertBefore'
 				
 		for (var i= 0 ; i < elementArray.length; i++) {
 			insertBefore.parentElement.insertBefore(elementArray[i], insertBefore)
@@ -314,6 +312,7 @@ var atomizer = {
 	},
 	
 	isAtomized: function(element, options) {
+		//has this element been atomized?
 		
 		if (element.classList) {
  			return element.classList.contains(options.className)
