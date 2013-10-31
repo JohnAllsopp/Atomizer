@@ -24,7 +24,7 @@
 	<script>function atomizeText(){
 		
 		var options = new atomizerOptions
-		options.granularity = 'word';
+		options.granularity = document.querySelector('#granularity').value;
 		options.className = 'atomized';
 		options.iterate = false;
 		options.iterateRecusively = true;
@@ -52,10 +52,10 @@
 <body>
 
 <ul>
-	<li>We <code>animation-direction</code> can use the property to specify whether</li>
+	<li>We <code>animation-direction</code> can use the property to specify whether </li>
 </ul>
 
-<p><button onclick="atomizeText()">Atomize</button> <button onclick="reconstituteText()">Reconstitute</button></p>
+<p><button onclick="atomizeText()">Atomize</button> <button onclick="reconstituteText()">Reconstitute</button><select id="granularity"><option>word</option><option>letter</option></select></p>
 
 </body>
 </html>

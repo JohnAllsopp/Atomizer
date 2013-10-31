@@ -1,0 +1,1307 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8" />
+	<title>Web Animation</title>
+	
+
+	<script src="../atomize.js"></script>
+
+
+	<script>function atomizeText(){
+		
+		var options = new atomizerOptions
+		options.granularity = document.querySelector('#granularity').value;
+		options.className = 'atomized';
+		options.iterate = false;
+		options.iterateRecusively = true;
+		options.deep = true;
+		
+		atomizer.atomize(document.querySelector("#presentation"), options)
+		
+	}
+	
+	function reconstituteText() {
+	
+		var options = new atomizerOptions
+		options.granularity = 'letter';
+		options.className = 'atomized';
+		options.iterate = false;
+		options.iterateRecusively = true;
+		options.deep = true;
+
+		atomizer.reconstitute(document.querySelector("#presentation"), options)
+
+	}
+	
+	</script>
+
+</head>
+<body>
+
+<p><button onclick="atomizeText()">Atomize</button> <button onclick="reconstituteText()">Reconstitute</button><select id="granularity"><option>word</option><option>letter</option></select></p>
+
+<section id="presentation">
+
+<section class="slide">
+<section class="slide-content">
+<h1>Satisfying Movements</h1>
+<h2>animating web experiences with</h2>
+<h2> CSS transitions, animations and transforms</h2>
+</section> <!-- slide-content -->
+<section class="speaker-notes">
+
+<h1>Satisfying Movements</h1>
+<h2>animating web experiences with</h2>
+<h2> CSS transitions, animations and transforms</h2>
+
+</section> <!-- speaker notes -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>In the beginning</h2>
+
+<ul>
+	<li>The <code class="blinking">&lt;blink&gt;</code> element brought animation of a sort to the web</li>
+	<li class="marquee">Microsoft's answer, the <code>&lt;marquee&gt;</code>, was for a brief time even more maddening</li>
+	<li>One of the earliest, most common uses of JavaScript was for image based "rollover" (<em>hover</em>) effects</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>State changes</h2>
+
+<ul>
+	<li>things got more meaningful when CSS and the DOM introduced the concept of state to web based UIs</li>
+	<li><ul>
+		<li>originally <code>:hover</code>, <code>:focus</code>,</li>
+		<li>now <code>:enabled</code>, <code>:disabled</code>, <code>:valid</code>, <code>:invalid</code>, <code>:checked</code></li>
+		</ul>
+	<li>states can change, yet, changes in style between these are typically harsh, sudden, and easy to miss if we're not paying attention</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>State changes</h2>
+
+<ul class="sidebyside">
+	<li>here we add a <code>box-shadow</code> to an input element when it has focus</li>
+</ul>
+
+<iframe src="examples/inputfocusabrupt.html" class="sidebyside"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>animating the state change</h2>
+
+<ul>
+	<li>We could create a JavaScript function, to change the value of the <code>style.boxShadow</code> property over a period of time</li>
+	<li>libraries like jQuery have long done this</li>
+	<li><ul>
+		<li>it's computationally intensive</li>
+		<li>drains battery life</li>
+		<li>lots of work for developers</li>	
+	</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>Enter CSS Transitions</h2>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+<ul>
+	<li>CSS transition properties specify</li>
+	<li><ul>
+		<li>whether any change to a property should be animated</li>
+		<li>how quickly</li>
+		<li>with what <em>easing</em></li>
+	</ul></li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css" >input {
+	transition-property: box-shadow;
+	transition-duration: 1s
+}
+</code></pre>
+
+<iframe src="examples/inputfocustransition.html" class="sidebyside"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+<ul>
+	<li>So far our changes in property have been caused by CSS alone</li>
+	<li>but transitions apply to any relevant property change</li>
+	<li>Another common animation pattern is the "accordion" effect</li>
+	<li>We change the height of the element using JavaScript</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->			
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+
+<pre class="sidebyside"><code class="language-css">/*CSS*/
+.accordion {
+	height: auto
+}
+.accordion.collapsed {
+	height: 0
+}
+
+/*JavaScript*/
+element.classList.toggle("collapsed");</code></pre>
+
+<iframe src="examples/accordionAbrupt.html" class="sidebyside"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->			
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+<ul>
+	<li>A static version will expand and collapse, but potentially cause confusion</li>
+	<li>So why not transition the <code>height</code> property?</li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">.accordion {
+	height: auto;
+	transition: height 1s;
+}
+.accordion.collapsed {
+	height: 0
+}</code></pre>
+
+<iframe src="examples/accordionAnimatedFailed.html" class="sidebyside"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+<ul>
+	<li>Not every property can be animated</li>
+	<li>can't always transition between different types value (from length to auto)</li>
+	<li>So how can we solve this?</li>
+	<li>We could specify a length value for <code>height</code>, instead of <code>auto</code></li>
+	<li>But why don't we use <code>max-height</code>?</li>
+	<li>As long as the <code>max-height</code> we specify is greater than the computed height all will be well</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+
+<pre class="sidebyside"><code class="language-css">.accordion {
+	height: auto;
+	max-height: 10em;
+	transition: max-height .5s;
+}
+
+.accordion.collapsed {
+	max-height: 0	
+}</code></pre>
+
+<iframe src="examples/accordionAnimated.html" class="sidebyside"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions</h2>
+
+<ul>
+	<li>so far we've seen transitions on properties changed by CSS</li>
+	<li>but no matter <strong>how</strong> a property changes, it will be animated</li>
+<li><ul>
+	<li>this could be by a user changing their preferred font-size, or the window width</li>
+	<li>this could be via JavaScript and the DOM <code>element.style.maxHeight = "10em"</code> </li>
+</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>delaying transitions</h2>
+
+<ul>
+	<li>hopefully you've noticed the animation effects in these slides</li>
+	<li>in particular, the list items "sliding" in</li>
+	<li>the staggered effect is achieved by delaying the start of the animation using <code>transition-delay</code></li>
+</ul>
+
+<pre><code class="language-css">li:nth-child(2) {
+	transition-delay: .3s;
+}
+
+li:nth-child(3) {
+	transition-delay: .5s;
+}</code></pre>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>The secret of <strike>comedy</strike> animation?</h2>
+
+<iframe src="examples/slideInListLinear.html"></iframe>
+
+<ul>
+	<li>pretty bland eh? But why?</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->	
+
+<section class="slide">
+<section class="slide-content">
+<h2>timing functions</h2>
+
+<ul>
+	<li>transitions are the animation between two states</li>
+	<li>the browser needs to interpolate the intermediate state between these over the duration of the animation</li>
+	<li>an obvious way to do this is to do so linearly. </li>
+<li><ul>
+	<li>10% of the way a property is 10% changed</li>
+	<li>50% of te way, 50% changed</li>
+</ul></li>
+	<li>Unfortunately this linear approach is often bland</li>
+	<li>Luckily we can specify how the browser animates the transition</li>
+</ul>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>transition-timing-function</code></h2>
+
+<ul>
+	<li>there are several keyword values we can use for this property</li>
+	<li><ul>
+		<li><code>ease</code> (the default)</li>
+		<li><code>ease-in</code></li>
+		<li><code>ease-out</code></li>
+		<li><code>ease-in-out</code></li>
+		<li><code>linear</code> </li>
+	</ul><li>
+</ul>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>transition-timing-function</code></h2>
+
+<ul>
+	<li>all complete in exactly the same time</li>
+	<li>each has a different effect</li>
+</ul>
+
+<iframe src="examples/slideInList.html"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Transitions: browser support</h2>
+
+<ul>
+	<li>all modern browsers and devices support transitions including IE10+</li>
+</ul>
+
+<ul>
+	<li>the <code>-webkit-</code> prefix is required for</li>
+	<li><ul>
+		<li>Safari up to an including version 6 </li>
+		<li>iOS Safari up to version 6 (unprefixed in iOS 7 Safari)</li>
+		<li>Android </li>
+	</ul></li>
+</ul>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS transitions</h2>
+
+<ul>
+	<li>Have a number of limitations</li>
+	<li><ul>
+		<li>only apply when properties are changed elsewhere (via CSS, JavaScript, user preferences)</li>
+		<li>apply once for the property change</li>
+		<li>must be defined individually for each statement</li>
+	</ul></li>
+</ul>
+
+<ul>
+	<li>These shortcomings are addressed with <code>@keyframes</code> animations which allow us to specify</li>
+	<li><ul>
+		<li>multi-step animations </li>
+		<li>that run for multiple iterations</li>
+		<li>can be reused across elements</li>
+	</ul></li>
+</ul>
+
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Animations</h2>
+
+<ul>
+	<li>step 1</li>
+	<li><ul>
+		<li>specify our animation using <code>@keyframes</code> rule</li>
+	</ul></li>
+
+	<li>step 2</li>
+	<li><ul>
+		<li>apply the animation to elements using animation properties</li>
+	</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>CSS Animations</h2>
+
+<ul class="sidebyside">
+	<li>instead of a simple transition on our input element let's make it pulse while it has focus</li>
+</ul>
+
+<iframe src="examples/inputfocusThrobbingInfiniteAlternate.html" class="sidebyside"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>@keyframes</h2>
+
+<ul>
+	<li>an @-rule, similar to <code>@media</code> </li>
+	<li>we give the animation a name (in this case <strong><code>pulse</code></strong>)</li>
+	<li>specify each of the "steps" of an animation</li>
+
+	<li><ul>
+		<li>at a minimum the start (0%) and end (100%)</li>
+		<li>each step is a a lot like a standard CSS statement.</li>
+		<li><ul>
+			<li>instead of a selector, it has a percentage value</li>
+			<li>inside curly braces it has css rules</li>
+			<li>these specify properties that should be animated, and their value at this stage of the animation</li>
+		</ul></li>
+	</ul></li>
+	<li>the browser uses these and then "tweens" between keyframes to create our animation </li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>@keyframes</h2>
+
+<pre><code class="language-css">@keyframes pulse {
+	0% {
+		box-shadow: 0 0 0 yellow
+	}
+
+	100% {
+		box-shadow: 0 0 12px yellow
+	}
+}</code></pre>
+
+
+
+</section> <!-- slide-content -->
+<section class="speaker-notes">
+
+
+</section> <!-- speaker notes -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>animation</code> properties</h2>
+
+<ul>
+	<li>now we need to associate this animation with our input element</li>
+	<li>we do so using properties in a statement</li>
+	<li><ul>
+		<li><code>animation-name</code> is the name of the animation we want associated with our selected element</li>
+		<li><code>animation-duration</code> specifies how long the entire animation should take</li>
+	</ul></li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">input:focus {
+	animation-name: pulse;
+	animation-duration: .7s;
+}</code></pre>
+
+<iframe src="examples/inputfocusThrobbingOnce.html" class="sidebyside" style="height: 20%"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>animation-iteration-count</h2>
+
+<ul>
+	<li>by default, our animation only happens once</li>
+	<li>we can specify how many times using <code>animation-iteration-count</code></li>
+	<li>this takes a whole number value, or the keyword <code>infinite</code></li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">input:focus {
+	animation-name: pulse;
+	animation-duration: .7s;
+	<strong>animation-iteration-count: infinite;</strong>
+}</code></pre>
+
+<iframe src="examples/inputfocusThrobbingInfinite.html" class="sidebyside" style="height: 20%"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>animation-direction</h2>
+
+<ul>
+	<li>by default an animation </li>
+	<li><ul>
+		<li>begins at the 0% value</li>
+		<li>animates to the 100% value</li>
+		<li>reverts immediately to the 0% value</li>
+	</ul></li>
+	
+	<li>if we want it to alternate in direction, we use <code>animation-direction: alternate</code></li>
+	<li>let's apply our animation 5 times, with an alternate direction</li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">input:focus {
+	animation-name: pulse;
+	animation-duration: .7s;
+	animation-iteration-count: 5;
+	<strong>animation-direction: alternate;</strong>
+}</code></pre>
+
+<iframe src="examples/inputfocusThrobbing5Times.html" class="sidebyside" style="height: 20%"></iframe>
+
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>animation properties</h2>
+
+<ul>
+	<li>it seems to have only iterated three times</li>
+	<li><ul>
+		<li>that's because the alternate animation, from 100% to 0% is also an iteration</li>
+	</ul></li>
+</ul>
+	
+<ul>
+	<li>at the end, our animated state vanishes</li>
+	<li><ul>
+		<li>animations are only temporary</li>
+		<li>they apply to the element during the animation</li>
+		<li>the element then reverts to the pre-animation state	</li>
+	</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>animation-fill-mode</code></h2>
+<ul>
+	<li><code>animation-fill-mode</code> solves our problem.</li>
+	<li>With a value of <code><strong>forwards</strong></code> the final properties of an animation persist after an animation</li>
+</ul>
+
+
+<pre class="sidebyside"><code class="language-css">input:focus {
+	animation-name: pulse;
+	animation-duration: .3s;
+	animation-iteration-count: 5;
+	animation-direction: alternate;
+	animation-fill-mode: forwards;
+}
+</code></pre>
+
+<iframe src="examples/inputfocusThrobbing5TimesFilled.html" class="sidebyside" style="height: 20%"></iframe>
+
+
+</section> <!-- slide-content -->
+<section class="speaker-notes">
+
+
+</section> <!-- speaker notes -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>John Allsopp's heuristics for non sucky web development</h2>
+
+<ul>
+	<li>If it can be done in HTML, with no need for CSS or JavaScript, use HTML</li>
+	<li>If it can be done with HTML + CSS, with no need for JavaScript, don't use JavaScript</li>
+	<li>Never use jQuery</li>
+</ul>
+
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>JavaScript free carousels</h2>
+
+<ul>
+	<li>let's apply this principle to one of the web's most derided components, the carousel</li>
+</ul>
+
+<pre><code class="language-markup">&lt;section class="carousel"&gt;
+	&lt;img src="images/slide1.jpg" width="640"&gt;
+	&lt;img src="images/slide2.jpg" width="640"&gt;
+	&lt;img src="images/slide3.jpg" width="640"&gt;
+	&lt;img src="images/slide4.jpg" width="640"&gt;
+	&lt;img src="images/slide5.jpg" width="640"&gt;
+&lt;/section&gt;</code></pre>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>the keyframes</h2>
+
+<ul>
+	<li>our total animation for 5 slides takes 21 seconds</li>
+	<li>each slide will animate into view for 1s (4.76% of 21s)</li>
+<li><ul>
+	<li>be on view for 4s</li>
+	<li>animate out of view for 1s (beginning at 5s into the animation, or 19.04%, and ending at 6s or 23.8%)</li>
+</ul></li>
+	<li>but of course we don't want them all to be animated at once, but rather one after the other</li>
+	<li>so we use the same animation, but delay it for each image</li>
+	<li>out first image has no delay, our  second has one of 4s, third 8s, fourth 12s and fifth 16s</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+
+<pre class="sidebyside small"><code class="language-css">@keyframes carousel {
+	0% {
+		left: -100%;
+		opacity: 0
+	}
+	4.76% {
+		left: 0%;
+		opacity: 1
+	}
+	19% {
+		left: 0%;
+		opacity: 1
+	}
+	23.8% {
+		left: 100%;
+		opacity: 1
+	}
+	25% {
+		left: 100%;
+		opacity: 0
+	}
+	100% {
+		left: -100%;
+		opacity: 0	
+	}
+</code></pre>
+<pre class="sidebyside small"><code class="language-css">	img {
+	animation-name: carousel;
+	animation-duration: 21s;
+	animation-timing-function: linear;
+	animation-iteration-count: 1;		
+	}
+	
+	img:nth-of-type(1) {	
+		animation-delay: 0s;
+	}
+
+	img:nth-of-type(2) {	
+		animation-delay: 4s;
+	}
+
+	img:nth-of-type(3) {	
+		animation-delay: 8s;
+	}
+
+	img:nth-of-type(4) {	
+		animation-delay: 12s;
+	}
+	
+	img:nth-of-type(5) {	
+		animation-delay: 16s;
+	}
+</code></pre>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>JavaScript-free Carousel</h2>
+<iframe src="examples/2Dcarousel.html"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>performance</h2>
+
+<ul>
+	<li>ok, what's happening under the hood?</li>
+	<li><ul>
+		<li>while an animation takes place, the DOM is constantly changing</li>
+		<li>while we're not animating in blocking JavaScript</li>
+		<li>we're still doing often expensive things in the DOM</li>
+		<li>Here's what Chrome developer tools tell us for this animation</li>
+	</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>performance</h2>
+
+	<figure>
+	<img src="images/redrawing.gif">
+	</figure>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>performance</h2>
+
+<ul>
+	<li>each time the <code>left</code> of the element changes, the document is reflowed, and then repainted</li>
+	<li>and remember the browser is changing the DOM constantly during an animation (and transition) </li>
+	<li>reflows as you may know are very expensive in terms of performance</li>
+	<li>So, is there anything we can do?</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>enter transforms</h2>
+
+<ul>
+	<li>allow us to rotate, scale and translate (move along axes) in 2 and 3 dimensions</li>
+	<li>operate on individual elements but <strong>don't</strong> change the layout of the page</li>
+	<li>we can still interact with the transformed element as it is rendered.</li>
+	<li>transforms such as rotating an element are of use in page layout design, transforms find their particular strength in association with animation</li>
+</ul>
+
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+		
+<section class="slide">
+<section class="slide-content">
+<h2>transform</h2>
+
+<ul>
+	<li>we apply transforms using the <code>transform</code> property</li>
+	<li>this takes one or more transform functions as its value</li>
+	<li>2D functions include <code>translateX</code>, <code>translateY</code>, <code>rotate</code>, <code>scale</code></li>
+	<li>3D functions include <code>translateZ</code>, <code>rotateX</code>, <code>rotateY</code></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>transform: translateX</h2>
+
+<ul>
+	<li>with transforms we can translate in 3 dimensions</li>
+	<li><ul>
+		<li>left and right (<code>translateX</code>)</li>
+		<li>up and down (<code>translateY</code>)</li>
+		<li>into and out of the page (<code>translateZ</code>)</li>
+	</ul></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>translateX</h2>
+
+<ul>
+	<li>translateX moves an object left (positive values) and right (negative values)</li>
+	<li>a positive value moves an element rightwards from its <strong>currently transformed position</strong></li>
+	<li>a negative value moves an element rightwards from its <strong>currently transformed position</strong></li>
+	<li>the function takes length values, e.g. <code>transform: translateX(100px)</code> or percentage values (e.g. <code>translateX(-100%)</code>)</li>
+</ul>
+
+
+
+<iframe src="examples/translateX.html"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>carousel with translateX</h2>
+
+
+<pre class="sidebyside"><code class="language-css">@keyframes carousel {
+	
+	0% {
+		left: -100%;
+		opacity: 0
+	}
+
+	4.76% {
+		left: 0;
+		opacity: 1	
+	}
+
+…</code></pre>
+
+<pre class="sidebyside"><code class="language-css">@keyframes carousel {
+	
+	0% {
+		transform: translateX(0);
+		opacity: 0
+	}
+
+	4.76% {
+		transform: translateX(100%);
+		opacity: 1	
+	}
+
+…</code></pre>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>transform</code> and performance</h2>
+
+
+	<figure>
+	<img src="images/redrawingtransform.gif">
+	</figure>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>scaling</h2>
+
+<ul>
+	<li><code>scale</code> is another common transform function</li>
+	<li>it takes a numerical value greater than 0</li>
+	<li>numbers more than 0 and less than one reduce the size of the element</li>
+	<li>numbers more than 1 increase the size of the element</li>
+</ul>
+
+<iframe src="examples/scale.html"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>dismissing modal dialogs</h2>
+
+<ul>
+	<li>a common pattern is to animate the dismissal of a modal dialog</li>
+	<li>here we use scale to zoom a dialog into the page  </li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">keyframes vanish {
+	from {
+		transform: scale(1);
+		opacity: 1		
+	}
+	
+	60% {
+		transform: scale(1.1);
+		opacity: 1			
+	}
+
+	to {
+		transform: scale(0);
+		opacity: 0		
+	}
+}</code></pre>
+
+<iframe src="examples/modaldialogdismiss.html" class="sidebyside"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>dismissing modal dialogs</h2>
+
+<ul>
+	<li>a common pattern is to animate the dismissal of a modal dialog</li>
+	<li>here we use <code>scale</code> to zoom a dialog into the page  </li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">.hidden {
+	animation-name: vanish;
+	animation-duration: .4s;
+	animation-fill-mode: forwards;
+	animation-timing-function: ease-out;		
+}</code></pre>
+
+<iframe src="examples/modaldialogdismiss.html" class="sidebyside"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>transform-origin</code></h2>
+
+<ul>
+	<li>why is the dialog disappearing into its center point?</li>
+	<li><ul>
+		<li>this is determined by the origin of the transform</li>
+		<li>by default it's the center of the transformed element</li>
+	</ul></li>
+
+	<li>we can modify this with <code>transform-origin</code></li>
+
+	<li><ul>
+		<li>this takes two length, percentage or keyword values</li>
+		<li>the first specifies the horizontal origin</li>
+		<li>the second the vertical origin</li>
+	</ul></li>
+</ul>
+
+<pre class="sidebyside"><code class="language-css">transform-origin: top left;
+transform-origin: 0 0</code></pre>
+
+<pre class="sidebyside"><code class="language-css">transform-origin: bottom right;
+transform-origin: 100% 100%</code></pre>
+
+</section> <!-- slide-content -->
+
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>transform-origin</code></h2>
+
+<pre class="sidebyside"><code class="language-css">.dialog {
+	transform-origin: top left;
+}</code></pre>
+
+<iframe src="examples/modaldialogdismissOrigin.html" class="sidebyside"></iframe>
+
+</section> <!-- slide-content -->
+
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>3D transforms</h2>
+
+<ul>
+	<li>so far the transforms we've seen have been in 2D</li>
+	<li>3D transforms allow us to translate and rotate</li>
+	<li><ul>
+		<li>left and right (X axis)</li>
+		<li>up and down (Y axis)</li>
+		<li>into and out of the page (Z axis)</li>
+	</ul></li>
+</ul>
+
+	<figure>
+	<img src="images/XYZAxes.png" style="width: 500px" alt="a still from an early TV show">
+	<figcaption>X, Y and Z Axes</figcaption>
+	</figure>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>rotation</h2>
+
+<ul>
+	<li>the other significant transform type is rotation</li>
+	<li>rotate functions take a value in degree, for example <code>178deg</code></li>
+	<li>the obvious rotation is around the Z axis</li>
+</ul>
+
+<pre><code class="language-css">transform: rotateZ(90deg)</code></pre>
+
+<iframe src="examples/rotateZ.html"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+
+<h2>3D Rotation</h2>
+
+<ul>
+	<li>we can also rotate around the X axis and y axis, using <code>rotateX</code> and <code>rotateY</code></li>
+</ul>
+
+<iframe src="examples/rotateXY.html" style="height: 40%" ></iframe>
+
+<ul>
+	<li>why doesn't this seem to be in 3D?</li>
+	<li>We need perspective</li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>Perspective</h2>
+
+<ul>
+	<li>this is applied to a container element of a 3D transformed element</li>
+	<li><strong>not</strong> the transformed element itself</li>
+	<li>it determines how far away the observer appears to be</li>
+	<li>the lower the number, the closer the observer appears to be</li>
+</ul>
+
+<pre><code class="language-css">body {
+	perspective: 800
+}</code></pre>
+
+<iframe src="examples/rotateXYDepth.html" style="height: 40%; width: 80%" ></iframe>
+
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+
+<section class="slide">
+<section class="slide-content">
+<h2>Isn't this all a bit of a gimmick?</h2>
+
+<ul>
+	<li>as designs become flatter</li>
+	<li>3D allows us to add meaningful depth</li>
+	<li>depth that can be animated</li>
+</ul>
+  
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+
+<iframe src="examples/iosSafariStepxStep.html" style="width: 100%; height: 96%"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>iOS 7 Safari Effect</h2>
+
+<ul>
+	<li>we place 4 iframes, one for each page, absolutely in the same location</li>
+	<li>and we give a containing element perspective</li>
+
+</ul>
+
+<pre class="aboveitall"><code class="language-css">iframe {
+	position: absolute;
+	top: 0;
+	left: 0;
+}
+
+body {
+	perspective: 1200
+}</code></pre>
+
+<iframe src="examples/iosSafariStep1.html" style="width: 90%; margin: 0 auto"></iframe>
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>iOS 7 Safari Effect</h2>
+
+<ul>
+	<li>now we scale each iframe by 50%</li>
+</ul>
+
+<pre  class="aboveitall"><code class="language-css">iframe {
+	transform: scale(.5)
+}</code></pre>
+
+<iframe src="examples/iosSafariStep2.html" style="width: 90%; margin: 0 auto"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>iOS 7 Safari Effect</h2>
+
+<ul>
+	<li>then rotate them around the Y axis, by slightly different angles</li>
+</ul>
+
+<pre class="aboveitall"><code class="language-css">img:nth-of-type(1) {
+	transform: scale(.5) rotateX(-5deg)
+}
+
+img:nth-of-type(2){
+	transform: scale(.5) rotateX(-15deg)
+}
+
+img:nth-of-type(3) {
+	transform: scale(.5) rotateX(-20deg)
+}
+
+img:nth-of-type(4) {
+	transform: scale(.5) rotateX(-25deg)
+}
+</code></pre>
+
+<iframe src="examples/iosSafariStep3.html"  style="width: 90%; margin: 0 auto"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>iOS 7 Safari Effect</h2>
+
+<ul>
+	<li>finally translate them around in the Z axis, by different amounts</li>
+</ul>
+
+<pre class="aboveitall"><code class="language-css">img:nth-of-type(1) {
+	transform: translateZ(-100px)
+}
+
+img:nth-of-type(2){
+	transform: translateZ(0)
+}
+
+img:nth-of-type(3) {
+	transform: translateZ(100px)
+}
+
+img:nth-of-type(4) {
+	transform: translateZ(200px)
+}
+</code></pre>
+
+<iframe src="examples/iosSafariStep4.html"   style="width: 90%; margin: 0 auto"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>perspective-origin</code></h2>
+
+<ul>
+	<li>just as transforms have origins we can change with <code>transform-origin</code></li>
+	<li>perspective origin can be changed using <code>perspective-origin</code></li>
+	<li>this specifies the location of the viewer</li>
+	<li>as with perspective, it's applied to a containing element, <strong>not</strong> the transformed element</li>
+	<li>takes two values, one for horizontal and one for vertical origin</li>
+	<li><ul>
+		<li>we can use keywords <code>top</code>, <code>bottom</code>, <code>center</code>, <code>left</code>, <code>right</code></li>
+		<li>percentage or length values</li>
+	</ul></li>
+	
+	<li>what about the Z origin? This is specified with <code>perspective</code></li>
+</ul>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2><code>perspective-origin</code></h2>
+
+<iframe src="examples/iosSafariStepPerspective.html" style="width: 100%; height: 100%"></iframe>
+
+</section> <!-- slide-content -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>What haven't we covered?</h2>
+
+<ul>
+	<li>creating your own timing-functions for transitions and animations</li>
+	<li>events associated with transitions and animations</li>
+	<li>the relationship between positioning, z-index, layout and transforms</li>
+	<li>shorthand properties for transitions and animations</li>
+</ul>
+
+
+</section> <!-- slide-content -->
+<section class="speaker-notes">
+</section> <!-- speaker notes -->
+</section> <!-- slide -->
+
+<section class="slide">
+<section class="slide-content">
+<h2>What's next?</h2>
+
+<ul>
+	<li>Pasquale D'Silva's presentation after the break in the design track</li>
+	<li>The Adobe Edge Animate competition, go speak with them in the Expo</li>
+	<li>Explore and experiment</li>
+	<li>Animation in the new typography (so don't use Comic Sans)</li>
+</ul>
+
+</section> <!-- slide-content -->
+<section class="speaker-notes">
+
+
+</section> <!-- speaker notes -->
+</section> <!-- slide -->
+
+
+</section> <!-- presentation -->
+<footer id="controls">
+		<ul class="edit">
+			<li><a href="#" onclick="speakEasy.deleteSlide()">	S- 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.duplicateSlide()">	S+ 
+				</a></li>
+			<li><a href="#" onclick=""></a></li>
+			<li><a href="#" onclick="speakEasy.bringForward()">	^ 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.bringToFront()">	^^ 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.sendBackward()">	v 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.sendToBack()">	vv 
+				</a></li>
+			<li><a href="#" onclick=""></a></li>
+			<li><a href="#" onclick="speakEasy.deleteElement()">	E- 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.duplicateElement()">	E+ 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.addElement('h2')">	H 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.addElement('ul')">	L 
+				</a></li>
+			<li><a href="#" onclick="speakEasy.addElement('section', 'code')">	&lt;&gt; 
+				</a></li>
+			<li><input type="file" onchange="speakEasy.locateImage(this)"> </li>
+		</ul>
+		<ul class="play">
+			<li><input type="number" min="1" step="1" value="1" onchange="speakEasy.gotoSlide()" oninput="speakEasy.gotoSlide()"> </li>
+			<li><a href="#" rel="last">	⏯ 
+				</a></li>
+			<li><a href="#" rel="next">	▶ 
+				</a></li>
+			<li><a href="#" rel="previous">	◀ 
+				</a></li>
+			<li><a href="#" rel="home">	⏮ 
+				</a></li>
+			<li><select onchange="speakEasy.zoom(this.value)">	<option value=".25">		25% 
+					</option>	<option value=".5">		50% 
+					</option>	<option value=".75">		75% 
+					</option>	<option value="1" selected="">		100% 
+					</option>	<option value="1.5">		150% 
+					</option>	<option value="2">		200% 
+					</option>	<option value="3">		300% 
+					</option></select></li>
+			<li>
+			<button onclick="speakEasy.exportHTML()">Export 
+			</button>
+		</li>
+	</ul>
+</footer>
+<section id="exporter">
+<div contentEditable></div>
+<p>Save the contents of the field above to a file in the same folder as this one.</p>
+<p><button onclick="speakEasy.closeExporter()">Done</button></p>
+</section>
+</body>
+
+
+</html>
+</body>
+</html>

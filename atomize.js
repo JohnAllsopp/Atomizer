@@ -211,15 +211,17 @@ var atomizer = {
 				
 					if (childNodes[i].textContent) {
 					
-						var text = childNodes[i].textContent.trim();
+						var text = childNodes[i].textContent //.trim();
 						var nextNode = childNodes[i+1]
 						if (text !== "") {
 						
 							var stringArray = text.split(" ");
 							var newElementsArray = [];
+							var newText = "";
 						
 							for (var j=0; j < stringArray.length; j++) {
 								var newElement = document.createElement(options.tag)
+								
 								
 								if (options.className !== "") {
 
@@ -233,9 +235,21 @@ var atomizer = {
 										newElement.classList.add(options.className)	
 									}
 								}
+							
+								newText = stringArray[j];
+							
+								if (stringArray[j] === "" ) {
+									newText = " " //spaces are added to the array as empty strings
+								}
+																
+								else if (j !== stringArray.length -1) { 
+									//if last element, don't add padding
+									newText += " " //add a space, as split eliminates the delimiting space
+								}
 								
-								newElement.textContent = stringArray[j] + " "; //add padding afterwards
+								newElement.textContent =  newText;
 								newElementsArray.push(newElement);
+								
 							};
 						
 							replacedElementsArray.push([childNodes[i], newElementsArray]) 
